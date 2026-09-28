@@ -3,9 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Earth Model</title>
+  <title>Earth Modeler</title>
+  <style>
+    :root { --panel: rgba(17, 28, 49, .86); --line: rgba(157, 183, 219, .18); --muted: #8fa6c5; --accent: #55d6be; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: #eef6ff; font: 14px/1.5 Inter, system-ui, sans-serif; background: radial-gradient(circle at 50% 42%, #183b63, #0b172c 35%, #050b16 75%); overflow: hidden; }
+    .app { min-height: 100vh; display: grid; grid-template-rows: 64px 1fr 42px; }
+    header, footer { display: flex; align-items: center; border-bottom: 1px solid var(--line); background: rgba(5, 12, 25, .65); backdrop-filter: blur(16px); }
+    header { padding: 0 28px; gap: 12px; } .logo { color: var(--accent); font-size: 22px; } h1 { margin: 0; font-size: 16px; letter-spacing: .12em; text-transform: uppercase; } .project { color: var(--muted); margin-left: auto; }
+    button { border: 0; border-radius: 8px; padding: 9px 14px; color: #eaf7ff; background: #203553; cursor: pointer; } button:hover { background: #2b486f; } .primary { color: #06251f; background: var(--accent); font-weight: 700; }
+    main { display: grid; grid-template-columns: 230px 1fr 260px; gap: 16px; padding: 16px; min-height: 0; } .panel { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); box-shadow: 0 18px 50px rgba(0,0,0,.18); backdrop-filter: blur(14px); } aside { padding: 16px; }
+    .label { margin: 4px 0 12px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; } .tool { display: flex; align-items: center; gap: 10px; width: 100%; margin: 6px 0; text-align: left; background: transparent; } .tool.active { color: #071b23; background: var(--accent); } .divider { height: 1px; margin: 18px 0; background: var(--line); } .layer { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; color: #c5d6ea; } .dot { width: 8px; height: 8px; margin-right: 8px; display: inline-block; border-radius: 50%; background: var(--accent); }
+    .stage { position: relative; display: grid; place-items: center; overflow: hidden; } .stage::before, .stage::after { content: ''; position: absolute; border: 1px solid rgba(132, 190, 229, .13); border-radius: 50%; transform: rotate(-20deg); } .stage::before { width: 72%; height: 38%; } .stage::after { width: 42%; height: 76%; }
+    .globe { position: relative; width: min(43vw, 390px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 30% 27%, #9de2ff 0 3%, transparent 4%), linear-gradient(135deg, #347cc3, #0b2852 72%); box-shadow: inset -28px -22px 45px #040d22, inset 13px 12px 28px rgba(196,238,255,.65), 0 0 55px rgba(56,177,255,.4); animation: spin 18s linear infinite; }
+    .globe::before { content: ''; position: absolute; inset: 12% 20% 30% 13%; border-radius: 45% 55% 38% 62%; background: #3eaa70; opacity: .92; clip-path: polygon(0 22%, 23% 4%, 41% 20%, 65% 8%, 86% 25%, 71% 44%, 95% 61%, 72% 67%, 57% 94%, 34% 76%, 7% 88%, 14% 53%); filter: drop-shadow(12px 14px 4px rgba(5,33,47,.35)); } .globe::after { content: ''; position: absolute; inset: 7%; border: 1px solid rgba(208,245,255,.28); border-radius: 50%; } @keyframes spin { to { transform: rotateY(360deg); } }
+    .stage-title { position: absolute; top: 20px; left: 24px; color: var(--muted); font-size: 12px; } .coordinates { position: absolute; right: 24px; bottom: 20px; color: var(--muted); font: 11px monospace; }
+    .control { margin: 18px 0; } .control-row { display: flex; justify-content: space-between; margin-bottom: 7px; color: #c6d7eb; } .value { color: var(--accent); font-family: monospace; } input[type="range"] { width: 100%; accent-color: var(--accent); } select { width: 100%; padding: 9px; border: 1px solid var(--line); border-radius: 7px; color: #e9f3ff; background: #132641; }
+    footer { justify-content: space-between; padding: 0 18px; border-top: 1px solid var(--line); border-bottom: 0; color: var(--muted); font-size: 12px; } .status { color: var(--accent); }
+    @media (max-width: 850px) { main { grid-template-columns: 190px 1fr; } main > aside:last-child { display: none; } } @media (max-width: 600px) { body { overflow: auto; } .app { display: block; } header, footer { padding: 14px; } main { display: block; } aside { margin-bottom: 16px; } .stage { min-height: 65vh; } .project { display: none; } }
+  </style>
 </head>
 <body>
-  <h1>3D E-MODULE FOR STUDENTS</h1>
+  <div class="app">
+    <header><span class="logo">◉</span><h1>Earth Modeler</h1><span class="project">Untitled planet · autosaved</span><button>Export</button><button class="primary">Share</button></header>
+    <main>
+      <aside class="panel"><div class="label">Tools</div><button class="tool active">✦ Select</button><button class="tool">◌ Sculpt terrain</button><button class="tool">⌖ Add marker</button><button class="tool">↻ Rotate view</button><div class="divider"></div><div class="label">Layers</div><div class="layer"><span><i class="dot"></i>Atmosphere</span><span>◉</span></div><div class="layer"><span><i class="dot" style="background:#3eaa70"></i>Land mass</span><span>◉</span></div><div class="layer"><span><i class="dot" style="background:#f2c879"></i>Elevation</span><span>○</span></div></aside>
+      <section class="panel stage"><span class="stage-title">3D VIEWPORT · ORBIT MODE</span><div class="globe" aria-label="Stylized rotating Earth model"></div><span class="coordinates">LAT 14.5995° N &nbsp; LON 120.9842° E</span></section>
+      <aside class="panel"><div class="label">Environment</div><div class="control"><div class="control-row"><span>Cloud coverage</span><span class="value">42%</span></div><input type="range" value="42"></div><div class="control"><div class="control-row"><span>Sea level</span><span class="value">+0.0 km</span></div><input type="range" value="50"></div><div class="control"><div class="control-row"><span>Sun intensity</span><span class="value">78%</span></div><input type="range" value="78"></div><div class="control"><div class="control-row"><span>Map style</span></div><select><option>Natural Earth</option><option>Satellite</option><option>Topographic</option></select></div><div class="divider"></div><div class="label">Camera</div><button class="tool">⛶ Fit to screen</button><button class="tool">▣ Toggle grid</button></aside>
+    </main>
+    <footer><span>Earth Modeler v1.0</span><span class="status">● All changes saved</span></footer>
+  </div>
 </body>
 </html>
